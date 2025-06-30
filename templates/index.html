@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAIXA MARVEL</title>
+  <style>
+    /* --- Estilos generales --- */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f2f9ff, #e0f0ff);
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* --- Header con logo y efecto holográfico --- */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .logo-gtv {
+      width: 150px;
+      height: auto;
+      border-radius: 20px;
+      position: relative;
+      animation: holograma 3s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .logo-gtv:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
+    }
+
+    @keyframes holograma {
+      0% {
+        filter: hue-rotate(0deg) saturate(1.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      }
+      50% {
+        filter: hue-rotate(90deg) saturate(2);
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+      }
+      100% {
+        filter: hue-rotate(0deg) saturate(1.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      color: #004080;
+      margin-top: 10px;
+    }
+
+    /* --- Formulario y listado --- */
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: #ffffffee;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    form input, form select, form button {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      flex: 1 1 180px;
+    }
+
+    #lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .registro {
+      background: #ffffff;
+      padding: 12px;
+      border-left: 6px solid #1976d2;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .registro.transferencia {
+      background: linear-gradient(90deg, #e0f7fa, #b2ebf2);
+      font-weight: bold;
+      border-left-color: #00796b;
+    }
+
+    .registro span {
+      flex: 1 1 100%;
+      margin: 3px 0;
+    }
+
+    .registro button {
+      margin-left: 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #1976d2;
+      color: white;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .registro button:hover {
+      background-color: #125ea9;
+    }
+
+    /* --- Nuevo cuadro de saldo con colores y efectos --- */
+    #saldo_final {
+      margin-top: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      user-select: none;
+      cursor: default;
+    }
+    /* Positivo */
+    .saldo-positivo {
+      color: #155724;
+      background-color: #d4edda;
+      border: 2px solid #28a745;
+      box-shadow: 0 0 15px #28a745aa;
+      text-shadow: 0 0 5px #155724aa;
+    }
+    /* Negativo */
+    .saldo-negativo {
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 2px solid #dc3545;
+      box-shadow: 0 0 15px #dc3545aa;
+      text-shadow: 0 0 5px #721c24aa;
+    }
+    /* Cero */
+    .saldo-cero {
+      color: #856404;
+      background-color: #fff3cd;
+      border: 2px solid #ffc107;
+      box-shadow: 0 0 15px #ffc107aa;
+      text-shadow: 0 0 5px #856404aa;
+    }
+
+    .form-saldo {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: #ffffffee;
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-saldo label {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .form-saldo input {
+      padding: 8px;
+      width: 200px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .form-saldo button {
+      padding: 8px 15px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: none;
+      background-color: #1976d2;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-saldo button:hover {
+      background-color: #125ea9;
+    }
+
+    @media screen and (max-width: 600px) {
+      form input, form select, form button, .form-saldo {
+        flex: 1 1 100%;
+        flex-direction: column;
+      }
+
+      .registro {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2K3ysu2ZCvEC0hAAxTUhd-hHJZfAcU8LiIQ&s"
+      alt="Logo GTV"
+      class="logo-gtv"
+    />
+    <h1>CAIXA MARVEL</h1>
+  </header>
+
+  <!-- Sonidos -->
+  <audio id="sonido_positivo" src="/static/sounds/saldo_positivo.mp3" preload="auto"></audio>
+  <audio id="sonido_negativo" src="/static/sounds/saldo_negativo.mp3" preload="auto"></audio>
+  <audio id="sonido_cero" src="/static/sounds/saldo_cero.mp3" preload="auto"></audio>
+
+  <!-- SALDO INICIAL -->
+  <div class="form-saldo">
+    <label for="saldo_inicial">💰 Saldo inicial:</label>
+    <input type="number" id="saldo_inicial" placeholder="Ej: 5000000" />
+    <button onclick="guardarSaldo()">💾 Guardar saldo inicial</button>
+  </div>
+
+  <!-- FORMULARIO DE REGISTROS -->
+  <form id="formulario">
+    <input type="date" id="fecha" required />
+    <input placeholder="Frota" id="frota" required />
+    <input placeholder="Chofer" id="chofer" required />
+
+    <select id="concepto" onchange="toggleInputConcepto(this)" required>
+      <option value="">--Seleccionar Concepto--</option>
+      <option value="TRANSFERENCIA DE GUARANI-CHARLES">TRANSFERENCIA DE GUARANI-CHARLES</option>
+      <option value="otro">Otro (escribir)</option>
+    </select>
+    <input type="text" id="concepto_manual" placeholder="Escribir concepto" style="display:none;" />
+
+    <input placeholder="Lugar" id="lugar" required />
+    <input type="number" step="any" placeholder="Monto (+ o -)" id="monto" required />
+
+    <button type="submit">💾 Guardar</button>
+    <input type="hidden" id="editIndex" />
+  </form>
+
+  <button onclick="exportar()" style="margin-bottom: 20px;">📤 Exportar a Excel</button>
+
+  <ul id="lista"></ul>
+  <h3 id="saldo_final"></h3>
+
+  <script>
+    const API = "http://localhost:5000";
+
+    function formatoFecha(fechaISO) {
+      if (!fechaISO) return '';
+      const partes = fechaISO.split('-');
+      if (partes.length !== 3) return fechaISO;
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function formatoMiles(numero) {
+      if (numero === null || numero === undefined) return '';
+      const n = Number(numero);
+      if (isNaN(n)) return numero;
+      return n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function toggleInputConcepto(select) {
+      const inputManual = document.getElementById("concepto_manual");
+      const frota = document.getElementById("frota");
+      const chofer = document.getElementById("chofer");
+      const lugar = document.getElementById("lugar");
+      const monto = document.getElementById("monto");
+
+      if (select.value === "otro") {
+        inputManual.style.display = "inline";
+        inputManual.required = true;
+        frota.readOnly = false;
+        chofer.readOnly = false;
+        lugar.readOnly = false;
+        monto.readOnly = false;
+      } else {
+        inputManual.style.display = "none";
+        inputManual.required = false;
+        inputManual.value = "";
+
+        if (select.value === "TRANSFERENCIA DE GUARANI-CHARLES") {
+          frota.value = "-";
+          chofer.value = "-";
+          lugar.value = "-";
+          frota.readOnly = true;
+          chofer.readOnly = true;
+          lugar.readOnly = true;
+          monto.readOnly = false;
+        } else {
+          frota.readOnly = false;
+          chofer.readOnly = false;
+          lugar.readOnly = false;
+          monto.readOnly = false;
+        }
+      }
+    }
+
+    async function cargarRegistros() {
+      try {
+        const res = await fetch(`${API}/registros`);
+        if (!res.ok) {
+          alert("Error al cargar registros");
+          return;
+        }
+        const datos = await res.json();
+        const lista = document.getElementById("lista");
+        const saldoFinal = document.getElementById("saldo_final");
+        lista.innerHTML = '';
+        let ultimoSaldo = 0;
+
+        datos.forEach((reg, idx) => {
+          const li = document.createElement("li");
+          li.className = "registro";
+
+          if (reg.concepto === "TRANSFERENCIA DE GUARANI-CHARLES") {
+            li.classList.add("transferencia");
+          }
+
+          li.innerHTML = `
+            <span>${reg.concepto === "TRANSFERENCIA DE GUARANI-CHARLES" ? "💸 " : ""}#${idx + 1} | Fecha: ${formatoFecha(reg.fecha)}</span>
+            <span>Frota: ${reg.frota} | Chofer: ${reg.chofer} | Concepto: ${reg.concepto}</span>
+            <span>Lugar: ${reg.lugar} | Monto: ${formatoMiles(reg.monto)} | Saldo: ${formatoMiles(reg.saldo)}</span>
+            <div>
+              <button onclick="editar(${idx})">✏️ Editar</button>
+              <button onclick="borrar(${idx})">🗑️ Eliminar</button>
+            </div>
+          `;
+          lista.appendChild(li);
+          ultimoSaldo = reg.saldo;
+        });
+
+        saldoFinal.className = "";
+        let emoji = "⚠️";
+        if (ultimoSaldo > 0) {
+          saldoFinal.classList.add("saldo-positivo");
+          emoji = "🎉";
+        } else if (ultimoSaldo < 0) {
+          saldoFinal.classList.add("saldo-negativo");
+          emoji = "💀";
+        } else {
+          saldoFinal.classList.add("saldo-cero");
+          emoji = "⚠️";
+        }
+        saldoFinal.innerText = `${emoji} Saldo al cierre: ${formatoMiles(ultimoSaldo)}`;
+
+        // Sonidos
+        const audioPositivo = document.getElementById('sonido_positivo');
+        const audioNegativo = document.getElementById('sonido_negativo');
+        const audioCero = document.getElementById('sonido_cero');
+
+        // Pausar todos para evitar superposición
+        audioPositivo.pause();
+        audioNegativo.pause();
+        audioCero.pause();
+        audioPositivo.currentTime = 0;
+        audioNegativo.currentTime = 0;
+        audioCero.currentTime = 0;
+
+        if (ultimoSaldo > 0) {
+          audioPositivo.play();
+        } else if (ultimoSaldo < 0) {
+          audioNegativo.play();
+        } else {
+          audioCero.play();
+        }
+
+      } catch (error) {
+        alert("Error en la comunicación con el servidor");
+      }
+    }
+
+    async function cargarSaldo() {
+      try {
+        const res = await fetch(`${API}/saldo`);
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById("saldo_inicial").value = data.saldo_inicial || 0;
+        } else {
+          document.getElementById("saldo_inicial").value = 0;
+        }
+      } catch {
+        document.getElementById("saldo_inicial").value = 0;
+      }
+    }
+
+    async function guardarSaldo() {
+      const nuevoSaldo = parseFloat(document.getElementById("saldo_inicial").value) || 0;
+      try {
+        const res = await fetch(`${API}/saldo`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ saldo_inicial: nuevoSaldo })
+        });
+        if (res.ok) {
+          await cargarRegistros();
+          alert("Saldo inicial actualizado");
+        } else {
+          alert("Error al actualizar saldo inicial");
+        }
+      } catch {
+        alert("Error de conexión al actualizar saldo inicial");
+      }
+    }
+
+    document.getElementById("formulario").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      let concepto = document.getElementById("concepto").value;
+      const conceptoManual = document.getElementById("concepto_manual").value;
+      if (concepto === "otro") {
+        concepto = conceptoManual.trim();
+        if (concepto === "") {
+          alert("Por favor, ingrese un concepto válido.");
+          return;
+        }
+      }
+
+      const data = {
+        fecha: document.getElementById("fecha").value,
+        frota: document.getElementById("frota").value,
+        chofer: document.getElementById("chofer").value,
+        concepto: concepto,
+        lugar: document.getElementById("lugar").value,
+        monto: parseFloat(document.getElementById("monto").value) || 0
+      };
+
+      const editIndex = document.getElementById("editIndex").value;
+      const endpoint = editIndex !== "" ? `${API}/registros/${editIndex}` : `${API}/registros`;
+      const method = editIndex !== "" ? "PUT" : "POST";
+
+      try {
+        const res = await fetch(endpoint, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          await cargarRegistros();
+          e.target.reset();
+          document.getElementById("concepto_manual").style.display = "none";
+          document.getElementById("editIndex").value = "";
+          document.getElementById("frota").readOnly = false;
+          document.getElementById("chofer").readOnly = false;
+          document.getElementById("lugar").readOnly = false;
+          document.getElementById("monto").readOnly = false;
+        } else {
+          alert("Error al guardar el registro");
+        }
+      } catch {
+        alert("Error de conexión al guardar el registro");
+      }
+    });
+
+    async function borrar(idx) {
+      if (!confirm("¿Confirma eliminar este registro?")) return;
+      try {
+        const res = await fetch(`${API}/registros/${idx}`, { method: 'DELETE' });
+        if (res.ok) {
+          await cargarRegistros();
+        } else {
+          alert("Error al eliminar registro");
+        }
+      } catch {
+        alert("Error de conexión al eliminar registro");
+      }
+    }
+
+    async function editar(idx) {
+      try {
+        const res = await fetch(`${API}/registros`);
+        if (!res.ok) {
+          alert("Error al obtener registros");
+          return;
+        }
+        const datos = await res.json();
+        const reg = datos[idx];
+
+        document.getElementById("fecha").value = reg.fecha;
+        document.getElementById("frota").value = reg.frota;
+        document.getElementById("chofer").value = reg.chofer;
+        document.getElementById("lugar").value = reg.lugar;
+        document.getElementById("monto").value = reg.monto;
+
+        if (reg.concepto === "TRANSFERENCIA DE GUARANI-CHARLES") {
+          document.getElementById("concepto").value = "TRANSFERENCIA DE GUARANI-CHARLES";
+          toggleInputConcepto(document.getElementById("concepto"));
+        } else if (reg.concepto === "" || reg.concepto === null) {
+          document.getElementById("concepto").value = "";
+          document.getElementById("concepto_manual").value = "";
+          toggleInputConcepto(document.getElementById("concepto"));
+        } else {
+          // Buscar si está en opciones
+          const opciones = Array.from(document.getElementById("concepto").options).map(opt => opt.value);
+          if (opciones.includes(reg.concepto)) {
+            document.getElementById("concepto").value = reg.concepto;
+            toggleInputConcepto(document.getElementById("concepto"));
+          } else {
+            document.getElementById("concepto").value = "otro";
+            document.getElementById("concepto_manual").style.display = "inline";
+            document.getElementById("concepto_manual").value = reg.concepto;
+            toggleInputConcepto(document.getElementById("concepto"));
+          }
+        }
+        document.getElementById("editIndex").value = idx;
+      } catch {
+        alert("Error al cargar datos para editar");
+      }
+    }
+
+    async function exportar() {
+      try {
+        const res = await fetch(`${API}/exportar`);
+        if (!res.ok) {
+          alert("Error al exportar");
+          return;
+        }
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "CAIXA_PARAGUAY_MARVEL.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } catch {
+        alert("Error en la conexión al exportar");
+      }
+    }
+
+    window.onload = () => {
+      cargarSaldo();
+      cargarRegistros();
+    };
+  </script>
+</body>
+</html>
